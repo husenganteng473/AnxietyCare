@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnxietyCare - Ruang Aman Anda</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="assets/images/logo.png">
+    <link rel="apple-touch-icon" href="assets/images/logo.png">
     <!-- Memuat Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Memuat Font Inter dari Google Fonts -->
@@ -124,11 +128,9 @@
 
                 <!-- Kolom Kanan: Visual Placeholder -->
                 <div class="md:order-2 flex justify-center">
-                     <!-- Gambar Placeholder yang menenangkan -->
-                    <div class="w-full max-w-sm h-80 bg-primary-dark rounded-3xl p-6 flex flex-col justify-center items-center shadow-2xl">
-                        <i data-lucide="sun-dim" class="w-20 h-20 text-yellow-300 opacity-80 mb-4"></i>
-                        <h3 class="text-2xl font-bold text-white text-center">Ruang Aman Anda</h3>
-                        <p class="text-sm text-gray-300 mt-2 text-center">Ilustrasi Ketenangan & Harapan</p>
+                     <!-- Gambar Ruang Tenang -->
+                    <div class="w-full max-w-sm h-80 rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="assets/images/ruang-tenang.webp" alt="Ruang Aman Anda - Ilustrasi Ketenangan & Harapan" class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
@@ -271,7 +273,7 @@
                 <div class="grid md:grid-cols-3 gap-8">
                     <!-- Artikel 1 -->
                     <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="https://placehold.co/600x400/3498db/ffffff?text=Napas+Tenang" onerror="this.onerror=null;this.src='https://placehold.co/600x400/95a5a6/ffffff?text=Placeholder'" alt="Ilustrasi Latihan Napas" class="w-full h-40 object-cover">
+                        <img src="assets/images/napas-lega.webp" alt="Ilustrasi Latihan Napas" class="w-full h-40 object-cover">
                         <div class="p-5">
                             <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">5 Latihan Napas untuk Redakan Cemas Saat Itu Juga</h3>
                             <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
@@ -279,7 +281,7 @@
                     </a>
                     <!-- Artikel 2 -->
                     <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="https://placehold.co/600x400/2c3e50/ffffff?text=Tidur+Nyenyak" onerror="this.onerror=null;this.src='https://placehold.co/600x400/95a5a6/ffffff?text=Placeholder'" alt="Ilustrasi Tidur Nyenyak" class="w-full h-40 object-cover">
+                        <img src="assets/images/tidur-nyenyak.jpeg" alt="Ilustrasi Tidur Nyenyak" class="w-full h-40 object-cover">
                         <div class="p-5">
                             <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">Cara Mengatasi Overthinking Sebelum Tidur</h3>
                             <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
@@ -287,7 +289,7 @@
                     </a>
                     <!-- Artikel 3 -->
                     <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="https://placehold.co/600x400/9b59b6/ffffff?text=Jurnal+Cemas" onerror="this.onerror=null;this.src='https://placehold.co/600x400/95a5a6/ffffff?text=Placeholder'" alt="Ilustrasi Jurnal dan Pena" class="w-full h-40 object-cover">
+                        <img src="assets/images/cemas.webp" alt="Ilustrasi Mindfulness dan Kecemasan" class="w-full h-40 object-cover">
                         <div class="p-5">
                             <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">Mindfulness untuk Pemula: Kenali Kecemasan Tanpa Menghakimi</h3>
                             <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
@@ -327,18 +329,6 @@
                         <span class="text-xs text-gray-500">Anggota Terverifikasi</span>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- BAGIAN BARU: CTA KUAT GAD-7 (5) -->
-        <section id="gad7-cta-strong" class="py-16 bg-primary-accent">
-            <div class="max-w-4xl mx-auto px-4 text-center text-white">
-                <h2 class="text-3xl md:text-4xl font-extrabold mb-4">Yuk, Kenali Tingkat Kecemasanmu!</h2>
-                <p class="text-lg mb-8">Tes ini menggunakan standar GAD-7, hanya butuh waktu 2 menit, dan hasilnya langsung keluar. Langkah pertama menuju pemulihan adalah kesadaran.</p>
-
-                <button onclick="openModal('gad7Modal')" class="bg-white text-primary-accent font-bold py-3 px-10 rounded-full shadow-2xl hover:bg-gray-100 transition duration-300 transform hover:scale-105">
-                    Mulai Tes Sekarang (2 Menit)
-                </button>
             </div>
         </section>
 
