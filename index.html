@@ -6,26 +6,19 @@
     <title>AnxietyCare - Sembuh Gerd & Anxiety dalam 4 Bulan</title>
     <link rel="icon" type="image/png" href="assets/images/ico.png">
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+        <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #fcfcfc;
         }
-
-        /* Custom Color Palette */
         :root {
-            --primary-dark: #2c3e50;    /* Navy Blue */
-            --primary-accent: #3498db;  /* Sky Blue */
+            --primary-dark: #2c3e50;
+            --primary-accent: #3498db;
             --primary-hover: #2980b9;
         }
 
@@ -35,7 +28,6 @@
         .text-primary-accent { color: var(--primary-accent); }
         .bg-primary-accent { background-color: var(--primary-accent); }
 
-        /* Button Styles */
         .btn-primary {
             background-color: var(--primary-accent);
             color: white;
@@ -47,7 +39,6 @@
             box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
         }
 
-        /* Card Effects */
         .card-hover {
             transition: all 0.3s ease;
         }
@@ -56,13 +47,11 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Modal Overlay */
         .modal-overlay {
             background-color: rgba(44, 62, 80, 0.85);
             backdrop-filter: blur(4px);
         }
 
-        /* Animation Utilities */
         @keyframes blob {
             0% { transform: translate(0px, 0px) scale(1); }
             33% { transform: translate(30px, -50px) scale(1.1); }
@@ -83,18 +72,15 @@
 </head>
 <body class="antialiased text-gray-800 flex flex-col min-h-screen">
 
-    <!-- NAVIGATION -->
     <header class="bg-white shadow-sm sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <!-- Logo -->
                 <a href="#" class="flex items-center gap-2 group">
                     <div class="flex text-blue-600 overflow-hidden">
                         <img src="assets/images/logo.png" alt="Logo AnxietyCare" class="h-10 object-contain" />
                     </div>
                 </a>
 
-                <!-- Desktop Menu -->
                 <nav class="hidden md:flex space-x-8 text-sm font-medium items-center">
                     <a href="#cerita" class="text-gray-600 hover:text-blue-600 transition">Cerita Anda</a>
                     <a href="#program" class="text-gray-600 hover:text-blue-600 transition">Program 4 Bulan</a>
@@ -104,14 +90,12 @@
                     <a href="#daftar" class="px-5 py-2.5 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Gabung</a>
                 </nav>
 
-                <!-- Mobile Menu Button -->
                 <button id="menuButton" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
             <div class="px-4 py-3 space-y-1">
                 <a href="#cerita" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium">Cerita Anda</a>
@@ -126,14 +110,11 @@
     </header>
 
     <main class="flex-grow">
-        <!-- HERO SECTION -->
         <section class="py-16 md:py-24 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
-            <!-- Decorative Blob -->
             <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center relative z-10">
                 
-                <!-- Text Content -->
                 <div class="text-center md:text-left animate-fade-in-up">
                     <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase mb-4">Program Pemulihan Intensif</span>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
@@ -152,7 +133,6 @@
                     </div>
                 </div>
 
-                <!-- Image Content -->
                 <div class="flex justify-center md:justify-end relative">
                     <div class="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform hover:scale-[1.02] transition duration-500">
                         <img src="assets/images/napas-lega.webp" 
@@ -163,7 +143,6 @@
             </div>
         </section>
 
-        <!-- THE STRUGGLE (NARRATIVE) SECTION -->
         <section id="cerita" class="py-20 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -246,9 +225,7 @@
             </div>
         </section>
 
-        <!-- THE 4-MONTH PROGRAM TIMELINE -->
         <section id="program" class="py-20 bg-gray-900 text-white relative overflow-hidden">
-             <!-- Background Pattern -->
              <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#3498db 1px, transparent 1px); background-size: 30px 30px;"></div>
             
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -259,7 +236,6 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <!-- Bulan 1 -->
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
                         <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">1</div>
                         <h3 class="text-xl font-bold mb-2">Mengenal Tubuh</h3>
@@ -275,7 +251,6 @@
                         </div>
                     </div>
 
-                    <!-- Bulan 2 -->
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
                         <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">2</div>
                         <h3 class="text-xl font-bold mb-2">Menyempurnakan Pola</h3>
@@ -290,7 +265,6 @@
                         </div>
                     </div>
 
-                    <!-- Bulan 3 -->
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
                         <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">3</div>
                         <h3 class="text-xl font-bold mb-2">Memahami Pola Pikir</h3>
@@ -305,7 +279,6 @@
                         </div>
                     </div>
 
-                    <!-- Bulan 4 -->
                     <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
                         <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">4</div>
                         <h3 class="text-xl font-bold mb-2">Transformasi Diri</h3>
@@ -323,7 +296,6 @@
             </div>
         </section>
 
-        <!-- THE 4P METHOD -->
         <section id="metode" class="py-20 bg-blue-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
@@ -335,7 +307,6 @@
                 </div>
 
                 <div class="grid md:grid-cols-2 gap-8">
-                    <!-- P1: Pola Makan -->
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-orange-400">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="p-3 bg-orange-100 text-orange-600 rounded-lg">
@@ -352,7 +323,6 @@
                         <p class="text-sm font-bold text-orange-600 bg-orange-50 p-2 rounded-lg inline-block">Hasil: Menghilangkan sensasi pemicu Anxiety Disorder.</p>
                     </div>
 
-                    <!-- P2: Pola Pikir -->
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-blue-400">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="p-3 bg-blue-100 text-blue-600 rounded-lg">
@@ -369,7 +339,6 @@
                         <p class="text-sm font-bold text-blue-600 bg-blue-50 p-2 rounded-lg inline-block">Hasil: Gejala tidak lagi terasa "mengancam".</p>
                     </div>
 
-                    <!-- P3: Pola Hidup -->
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-green-400">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="p-3 bg-green-100 text-green-600 rounded-lg">
@@ -386,7 +355,6 @@
                         <p class="text-sm font-bold text-green-600 bg-green-50 p-2 rounded-lg inline-block">Hasil: Tubuh tidak lagi dalam mode "Siaga".</p>
                     </div>
 
-                    <!-- P4: Pola Sifat -->
                     <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-purple-400">
                         <div class="flex items-center gap-4 mb-4">
                             <div class="p-3 bg-purple-100 text-purple-600 rounded-lg">
@@ -406,14 +374,12 @@
             </div>
         </section>
 
-        <!-- TESTIMONIALS (UPDATED - 4 ITEMS IN GRID) -->
         <section id="testimoni" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 text-center">
                 <h2 class="text-3xl font-bold mb-4 text-gray-900">Kisah Nyata, Harapan Baru</h2>
                 <p class="text-gray-600 mb-12">Dengarkan perjuangan nyata mereka yang berhasil bangkit bersama komunitas kami.</p>
                 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                    <!-- Testi 1 -->
                     <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
                         <div>
                             <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
@@ -430,7 +396,6 @@
                         </div>
                     </div>
                     
-                    <!-- Testi 2 -->
                     <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
                         <div>
                             <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
@@ -447,7 +412,6 @@
                         </div>
                     </div>
 
-                    <!-- Testi 3 -->
                     <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
                         <div>
                             <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
@@ -464,9 +428,7 @@
                         </div>
                     </div>
 
-                    <!-- Video Link Card (Item 4) -->
                     <a href="https://www.youtube.com/watch?v=4y9vu2PcR8M" target="_blank" class="group relative bg-gray-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 flex flex-col">
-                        <!-- Thumbnail -->
                         <div class="relative h-48 sm:h-full bg-black overflow-hidden flex-grow">
                              <img src="https://img.youtube.com/vi/4y9vu2PcR8M/hqdefault.jpg" alt="Video Testimoni" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500 transform group-hover:scale-110">
                              <div class="absolute inset-0 flex items-center justify-center">
@@ -475,7 +437,6 @@
                                  </div>
                              </div>
                         </div>
-                        <!-- Caption -->
                         <div class="p-4 bg-white text-left h-auto">
                             <h3 class="font-bold text-gray-900 leading-tight mb-1 text-sm">Tonton Video Lengkap</h3>
                             <p class="text-xs text-gray-500">Kumpulan cerita para survivor.</p>
@@ -485,7 +446,6 @@
             </div>
         </section>
 
-        <!-- FAQ SECTION -->
         <section id="faq" class="py-20 bg-gray-50 border-t border-gray-200">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
@@ -493,7 +453,6 @@
                 </div>
                 
                 <div class="space-y-4">
-                    <!-- FAQ 1 -->
                     <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg text-gray-900">Apakah dijamin sembuh dalam 4 bulan?</h3>
@@ -504,7 +463,6 @@
                         </p>
                     </div>
 
-                    <!-- FAQ 2 -->
                     <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg text-gray-900">Apakah Kliyengan, sesak, dan dada berdebar termasuk anxiety?</h3>
@@ -515,7 +473,6 @@
                         </p>
                     </div>
 
-                    <!-- FAQ 3 -->
                     <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg text-gray-900">Bagaimana cara kerja Metode 4P?</h3>
@@ -526,7 +483,6 @@
                         </p>
                     </div>
 
-                    <!-- FAQ 4 -->
                     <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg text-gray-900">Apakah program ini cocok untuk semua jenis anxiety?</h3>
@@ -537,7 +493,6 @@
                         </p>
                     </div>
 
-                    <!-- FAQ 5 -->
                     <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
                         <div class="flex justify-between items-center">
                             <h3 class="font-bold text-lg text-gray-900">Apakah overthinking saat dengar berita buruk itu gejala anxiety?</h3>
@@ -551,7 +506,6 @@
             </div>
         </section>
 
-        <!-- CTA FINAL -->
         <section id="daftar" class="py-20 bg-[#2c3e50] relative overflow-hidden">
             <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
                 <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">Mau Sampai Kapan? <br> <span class="text-blue-400">Saatnya Pulih.</span></h2>
@@ -563,7 +517,6 @@
                     <button onclick="openModal('registrationModal')" class="btn-primary py-4 px-8 rounded-full text-lg font-bold shadow-lg transform hover:scale-105 transition">
                         YA, SAYA SIAP BERGABUNG & PULIH
                     </button>
-                    <!-- Tautan WhatsApp yang berfungsi -->
                     <a href="https://wa.me/6281234567890?text=Halo%20AnxietyCare%2C%20saya%20ingin%20konsultasi%20singkat%20mengenai%20program%20pemulihan%20ini." 
                        target="_blank" 
                        class="bg-green-600 text-white py-4 px-8 rounded-full text-lg font-bold shadow-lg hover:bg-green-700 transform hover:scale-105 transition flex items-center justify-center gap-2">
@@ -575,16 +528,15 @@
         </section>
     </main>
 
-    <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-                <!-- Brand -->
                 <div class="col-span-1 md:col-span-2">
-                    <div class="flex items-center gap-2 mb-4 text-white">
-                        <i data-lucide="heart-handshake" class="w-6 h-6 text-blue-500"></i>
-                        <span class="text-xl font-bold">AnxietyCare</span>
-                    </div>
+                    <a href="#" class="flex items-center gap-2 group">
+                        <div class="flex text-blue-600 overflow-hidden">
+                            <img src="assets/images/logo.png" alt="Logo AnxietyCare" class="h-10 object-contain" />
+                        </div>
+                    </a>
                     <p class="text-sm text-gray-400 mb-6 leading-relaxed max-w-sm">
                         Yayasan Anxiety Care Indonesia. Membantu penderita gangguan kecemasan (disertai gangguan lambung/depresi) dengan pengetahuan dan dukungan komunitas.
                     </p>
@@ -595,7 +547,6 @@
                     </div>
                 </div>
 
-                <!-- Contact -->
                 <div>
                     <h3 class="text-white font-semibold mb-4">Kontak</h3>
                     <ul class="space-y-2 text-sm text-gray-400">
@@ -605,7 +556,6 @@
                     </ul>
                 </div>
 
-                <!-- Partners -->
                 <div>
                     <h3 class="text-white font-semibold mb-4">Mitra</h3>
                     <ul class="space-y-2 text-sm text-gray-500">
@@ -625,19 +575,16 @@
         </div>
     </footer>
 
-    <!-- MODAL: REGISTRATION -->
     <div id="registrationModal" class="fixed inset-0 z-50 hidden transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <div class="fixed inset-0 modal-overlay transition-opacity" onclick="closeModal('registrationModal')"></div>
         <div class="flex items-center justify-center min-h-screen p-4 text-center sm:p-0">
             <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:max-w-lg w-full max-h-[90vh] flex flex-col">
-                <!-- Header -->
                 <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
                     <h3 class="text-xl font-bold text-gray-900">Daftar Waiting List</h3>
                     <button onclick="closeModal('registrationModal')" class="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full p-1 transition">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
-                <!-- Body -->
                 <div class="p-6">
                     <form id="registrationForm" class="space-y-4">
                         <input type="text" id="name" name="Nama" placeholder="* Nama Lengkap" required
@@ -671,7 +618,6 @@
         <div class="flex items-center justify-center min-h-screen p-4 text-center">
             <div class="relative bg-white rounded-2xl p-8 shadow-2xl transform transition-all sm:max-w-sm w-full flex flex-col items-center animate-fade-in-up">
                 
-                <!-- Icon Success -->
                 <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                     <i data-lucide="check" class="w-8 h-8 text-green-600"></i>
                 </div>
@@ -691,10 +637,30 @@
     </div>
 
     <script>
-        // Init Icons
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+
+            function onScroll() {
+                let current = sections[0];
+                const scrollPos = window.scrollY + 100;
+                for (const section of sections) {
+                    if (section.offsetTop <= scrollPos) {
+                        current = section;
+                    }
+                }
+                navLinks.forEach(link => {
+                    link.classList.remove('text-blue-600', 'font-bold', 'underline');
+                    if (link.getAttribute('href') === '#' + current.id) {
+                        link.classList.add('text-blue-600', 'font-bold', 'underline');
+                    }
+                });
+            }
+            window.addEventListener('scroll', onScroll);
+            onScroll();
+        });
         lucide.createIcons();
 
-        // Mobile Menu Logic
         const menuButton = document.getElementById('menuButton');
         const mobileMenu = document.getElementById('mobileMenu');
         
@@ -717,7 +683,6 @@
             });
         });
 
-        // --- Modal Logic ---
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
             document.body.style.overflow = 'hidden'; 
@@ -743,7 +708,6 @@
             const originalText = btn.innerText;
             const status = document.getElementById('statusMessage');
 
-            // Ambil data dari form
             const data = {
                 Nama: form.Nama.value,
                 Email: form.Email.value,
