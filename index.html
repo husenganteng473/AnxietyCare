@@ -1,660 +1,733 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnxietyCare - Ruang Aman Anda</title>
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/logo.png">
-    <link rel="shortcut icon" type="image/png" href="assets/images/logo.png">
-    <link rel="apple-touch-icon" href="assets/images/logo.png">
-    <!-- Memuat Tailwind CSS -->
+    <title>AnxietyCare - Sembuh Gerd & Anxiety dalam 4 Bulan</title>
+    <link rel="icon" type="image/png" href="assets/images/ico.png">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Memuat Font Inter dari Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <!-- Memuat Lucide Icons -->
+    
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
     <style>
-        /* Menggunakan font Inter sebagai default */
+        /* Base Styles */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #fcfcfc; /* Hampir putih */
-        }
-        /* Palet Warna Baru: Biru Tua (Navy) sebagai Primer, Krem sebagai Aksen */
-        .bg-primary-dark {
-            background-color: #2c3e50; /* Biru Tua */
-            color: white;
-        }
-        .text-primary-accent {
-            color: #3498db; /* Biru Cerah/Sky Blue untuk aksen */
-        }
-        .btn-primary-dark {
-            background-color: #3498db; /* Biru Cerah */
-            transition: background-color 0.3s;
-        }
-        .btn-primary-dark:hover {
-            background-color: #2980b9; /* Biru lebih gelap saat hover */
-        }
-        .card-shadow {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card-shadow:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
-        }
-        /* Gaya kustom untuk input angka GAD-7 */
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-        input[type="number"] {
-          -moz-appearance: textfield; /* Firefox */
+            background-color: #fcfcfc;
         }
 
-        /* Style untuk modal overlay */
-        .modal-overlay {
-            background-color: rgba(44, 62, 80, 0.9);
-            backdrop-filter: blur(5px);
+        /* Custom Color Palette */
+        :root {
+            --primary-dark: #2c3e50;    /* Navy Blue */
+            --primary-accent: #3498db;  /* Sky Blue */
+            --primary-hover: #2980b9;
         }
-        .blog-card-shadow {
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+
+        .text-primary-dark { color: var(--primary-dark); }
+        .bg-primary-dark { background-color: var(--primary-dark); }
+        
+        .text-primary-accent { color: var(--primary-accent); }
+        .bg-primary-accent { background-color: var(--primary-accent); }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: var(--primary-accent);
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Card Effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Modal Overlay */
+        .modal-overlay {
+            background-color: rgba(44, 62, 80, 0.85);
+            backdrop-filter: blur(4px);
+        }
+
+        /* Animation Utilities */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="antialiased text-gray-800">
+<body class="antialiased text-gray-800 flex flex-col min-h-screen">
 
-    <!-- Header / Navigasi Responsif -->
-    <header class="bg-white shadow-md sticky top-0 z-20">
+    <!-- NAVIGATION -->
+    <header class="bg-white shadow-sm sticky top-0 z-40 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
+            <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
-                <a href="#" class="flex items-center space-x-2">
-                    <img src="assets/images/logo.png" alt="AnxietyCare Logo" class="h-8 w-auto">
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="flex text-blue-600 overflow-hidden">
+                        <img src="assets/images/logo.png" alt="Logo AnxietyCare" class="h-10 object-contain" />
+                    </div>
                 </a>
 
-                <!-- Navigasi Desktop -->
-                <nav class="hidden sm:flex space-x-8 text-sm font-medium">
-                    <a href="#tentang-kami" class="text-gray-600 hover:text-primary-accent transition duration-150">Tentang Kami</a>
-                    <a href="#fitur-manfaat" class="text-gray-600 hover:text-primary-accent transition duration-150">Fitur</a>
-                    <a href="#edukasi" class="text-gray-600 hover:text-primary-accent transition duration-150">Edukasi</a>
-                    <a href="#testimoni" class="text-gray-600 hover:text-primary-accent transition duration-150">Testimoni</a>
-                    <a href="#daftar" class="text-gray-600 hover:text-primary-accent transition duration-150 font-bold">Gabung</a>
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                    <a href="#cerita" class="text-gray-600 hover:text-blue-600 transition">Cerita Anda</a>
+                    <a href="#program" class="text-gray-600 hover:text-blue-600 transition">Program 4 Bulan</a>
+                    <a href="#metode" class="text-gray-600 hover:text-blue-600 transition">Metode 4P</a>
+                    <a href="#testimoni" class="text-gray-600 hover:text-blue-600 transition">Testimoni</a>
+                    <a href="#faq" class="text-gray-600 hover:text-blue-600 transition">FAQ</a>
+                    <a href="#daftar" class="px-5 py-2.5 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition shadow-md hover:shadow-lg transform hover:-translate-y-0.5">Gabung</a>
                 </nav>
 
-                <!-- Tombol Menu Seluler (Hamburger) -->
-                <button id="menuButton" class="sm:hidden text-gray-600 focus:outline-none p-2 rounded-lg hover:bg-gray-100">
+                <!-- Mobile Menu Button -->
+                <button id="menuButton" class="md:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none">
                     <i data-lucide="menu" class="w-6 h-6"></i>
                 </button>
             </div>
         </div>
-        <!-- Menu Dropdown Seluler -->
-        <div id="mobileMenu" class="hidden sm:hidden bg-white shadow-xl py-2 px-4 border-t border-gray-100">
-             <a href="#tentang-kami" class="block py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Tentang Kami</a>
-             <a href="#fitur-manfaat" class="block py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Fitur</a>
-             <a href="#edukasi" class="block py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Edukasi</a>
-             <a href="#testimoni" class="block py-2 text-gray-700 hover:bg-gray-50 rounded-lg">Testimoni</a>
-             <a href="#daftar" class="block py-2 mt-2 text-center btn-primary-dark text-white font-semibold rounded-lg">Gabung Sekarang</a>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-lg z-50">
+            <div class="px-4 py-3 space-y-1">
+                <a href="#cerita" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium">Cerita Anda</a>
+                <a href="#program" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium">Program 4 Bulan</a>
+                <a href="#metode" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium">Metode 4P</a>
+                <a href="#testimoni" class="block py-3 px-4 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-lg font-medium">Testimoni</a>
+                <div class="pt-2 pb-2">
+                    <a href="#daftar" class="block w-full text-center py-3 bg-blue-500 text-white font-bold rounded-lg shadow hover:bg-blue-600">Gabung Sekarang</a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- Bagian Pahlawan (Hero Section) - Emosional & CTA Cepat -->
-    <main>
-        <section class="py-16 md:py-24 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-10 items-center">
-                <!-- Kolom Kiri: Teks & CTA -->
-                <div class="md:order-1 text-center md:text-left">
-                    <span class="text-sm font-semibold uppercase text-primary-accent tracking-wider mb-2 block">Kesehatan Mental Adalah Prioritas</span>
-                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-snug">
-                        Kamu <span class="text-primary-accent">Tidak Sendiri.</span> Bersama, Kita Bisa Pulih.
+    <main class="flex-grow">
+        <!-- HERO SECTION -->
+        <section class="py-16 md:py-24 bg-gradient-to-b from-blue-50 to-white relative overflow-hidden">
+            <!-- Decorative Blob -->
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center relative z-10">
+                
+                <!-- Text Content -->
+                <div class="text-center md:text-left animate-fade-in-up">
+                    <span class="inline-block py-1 px-3 rounded-full bg-blue-100 text-blue-700 text-xs font-bold tracking-wider uppercase mb-4">Program Pemulihan Intensif</span>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+                        Sembuh Gerd & Anxiety <br>
+                        <span class="text-blue-500">Dalam 4 Bulan</span>
                     </h1>
-                    <p class="text-lg text-gray-600 mb-8 max-w-lg md:max-w-none mx-auto md:mx-0">
-                        Anxyeticare adalah ruang aman untuk berbagi cerita, belajar mengelola kecemasan, dan bertumbuh bersama.
+                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed italic border-l-4 border-blue-500 pl-4 bg-blue-50/50 py-2 rounded-r-lg">
+                        "Anda Tidak Sendirian. Temukan Ruang Aman dan Dukungan Nyata untuk Pulih dari Gangguan Kecemasan di Sini.”
                     </p>
                     
-                    <!-- DUA TOMBOL CTA DI HERO SECTION -->
-                    <div class="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
-                        <a href="#daftar" class="btn-primary-dark text-white text-lg font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl inline-block transition duration-300 transform hover:scale-105">
-                            Gabung Komunitas Sekarang
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#daftar" class="btn-primary py-4 px-8 rounded-full text-lg font-bold shadow-lg flex items-center justify-center gap-2">
+                            GABUNG KOMUNITAS & MULAI PULIH
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
                         </a>
-                        <!-- Tombol untuk membuka Modal Tes GAD-7 -->
-                        <button onclick="openModal('gad7Modal')" class="bg-transparent border border-primary-accent text-primary-accent text-lg font-bold py-3 px-8 rounded-full shadow-lg hover:bg-primary-accent hover:text-white transition duration-300 transform hover:scale-105">
-                            Mulai Tes Kecemasan
-                        </button>
                     </div>
-                    <!-- AKHIR DUA TOMBOL CTA -->
                 </div>
 
-                <!-- Kolom Kanan: Visual Placeholder -->
-                <div class="md:order-2 flex justify-center">
-                     <!-- Gambar Ruang Tenang -->
-                    <div class="w-full max-w-sm h-80 rounded-3xl overflow-hidden shadow-2xl">
-                        <img src="assets/images/ruang-tenang.webp" alt="Ruang Aman Anda - Ilustrasi Ketenangan & Harapan" class="w-full h-full object-cover">
+                <!-- Image Content -->
+                <div class="flex justify-center md:justify-end relative">
+                    <div class="relative w-full max-w-md aspect-square rounded-3xl overflow-hidden shadow-2xl border-4 border-white transform hover:scale-[1.02] transition duration-500">
+                        <img src="assets/images/napas-lega.webp" 
+                             alt="Ilustrasi Ketenangan" 
+                             class="w-full h-full object-cover">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- BAGIAN BARU: TENTANG KAMI - OUR STORY & KENAPA KAMI PEDULI -->
-        <section id="tentang-kami" class="py-16 md:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- THE STRUGGLE (NARRATIVE) SECTION -->
+        <section id="cerita" class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-12">
-                    <h2 class="text-4xl font-extrabold text-gray-900 mb-4">Tentang Kami - Our Story</h2>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 leading-tight">
+                        Pernah Merasa Ada yang “Salah” di Dalam Diri Anda… <br>
+                        <span class="text-blue-600">Tapi Tidak Ada yang Bisa Anda Jelaskan?</span>
+                    </h2>
                 </div>
 
-                <div class="grid md:grid-cols-2 gap-10 items-start">
-                    <!-- Kolom Kiri: Kisah Kami & Kenapa Kami Peduli (Meningkatkan Emotional Trust) -->
-                    <div>
-                        <h3 class="text-2xl font-bold text-primary-accent mb-4">Kenapa Kami Peduli?</h3>
-                        <p class="text-gray-700 mb-6 italic border-l-4 border-yellow-500 pl-4">
-                            "Kami memulai Anxyeticare karena kami juga pernah merasa cemas berlebihan. Kami tahu rasanya sendirian — dan kami ingin membangun ruang untuk saling mendukung, agar tidak ada lagi yang berjuang sendirian."
+                <div class="prose prose-lg mx-auto text-gray-600 leading-relaxed space-y-6">
+                    <p>
+                        Malam itu, Anda menatap langit-langit kamar. Lampu sudah dimatikan sejak lama, tapi tubuh Anda menolak tenang.
+                        Jantung mulai berdebar lebih cepat. Ada rasa sesak di dada—bukan sakit, tapi seperti ada tekanan yang sulit dijelaskan. 
+                        Tenggorokan terasa mengganjal, seakan ada sesuatu yang tidak turun dengan sempurna. Lambung pun ikut perih dan panas, 
+                        membuat Anda semakin sulit memejamkan mata.
+                    </p>
+                    <p class="font-medium text-gray-800">
+                        Anda menarik napas… tapi rasanya napas itu tidak pernah cukup.
+                    </p>
+                    
+                    <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 my-8">
+                        <p class="font-semibold text-gray-900 mb-4">Pikiran Anda mulai menganalisa:</p>
+                        <ul class="space-y-2 italic text-gray-700 list-none pl-0">
+                            <li class="flex items-center gap-2"><i data-lucide="help-circle" class="w-5 h-5 text-blue-500"></i> “Kenapa dadaku begini?”</li>
+                            <li class="flex items-center gap-2"><i data-lucide="help-circle" class="w-5 h-5 text-blue-500"></i> “Apa ini berbahaya?”</li>
+                            <li class="flex items-center gap-2"><i data-lucide="help-circle" class="w-5 h-5 text-blue-500"></i> “Kenapa napas rasanya pendek?”</li>
+                            <li class="flex items-center gap-2"><i data-lucide="help-circle" class="w-5 h-5 text-blue-500"></i> “Apa aku sakit?”</li>
+                        </ul>
+                    </div>
+
+                    <p>
+                        Semakin Anda mencoba menenangkan diri, semakin gelombang kecemasan itu menelan Anda. 
+                        Dan tubuh merespons dengan caranya sendiri:
+                    </p>
+
+                    <div class="grid sm:grid-cols-2 gap-4 my-6">
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Dada terasa penuh atau tertekan</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Tenggorokan seperti tersumbat</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Rasa asam naik sampai ke mulut</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Perut panas, kembung, sering bersendawa</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Jantung terasa berdetak lebih cepat</span>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <i data-lucide="x-circle" class="w-6 h-6 text-red-500 shrink-0 mt-1"></i>
+                            <span>Napas terasa pendek, tapi tidak sesak flu</span>
+                        </div>
+                    </div>
+
+                    <p>
+                        Anda mulai bertanya-tanya… <span class="font-bold text-gray-900">“Ini kecemasan? Atau GERD? Atau keduanya?”</span>
+                        Dan justru karena kebingungan itu, kecemasan makin kuat, tubuh makin tegang.
+                    </p>
+
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-r-xl mt-10">
+                        <h4 class="font-bold text-blue-900 mb-2">Jika cerita ini terasa seperti kisah Anda...</h4>
+                        <p class="text-blue-800 mb-4">
+                            Anda tidak berlebihan. Anda tidak “lebay”. Anda tidak sendirian.
+                            Banyak dari kami di Anxiety Care Indonesia juga pernah merasakan kombinasi kecemasan yang memicu GERD, 
+                            dan GERD yang memperburuk kecemasan.
                         </p>
-
-                        <h3 class="text-2xl font-bold text-primary-accent mb-4">Yayasan Anxiety Care Indonesia (ACI)</h3>
-                        <p class="text-gray-700 mb-4 leading-relaxed">
-                            Yayasan ANXIETY CARE INDONESIA dibentuk di Jakarta pada tanggal 20-2-2020, disahkan melalui surat keputusan menteri AHU-0004260.AH.01.12.Tahun 2020.
-                            Kami bertujuan untuk membantu penderita gangguan kecemasan (yang disertai dengan gangguan lambung atau depresi), dengan memberikan pengetahuan tentang bagaimana cara agar penderita maupun masyarakat dapat membantu kesembuhan para penderita.
+                        <p class="text-blue-800 font-semibold">
+                            Lingkaran yang melelahkan ini bisa diputus.
                         </p>
-                        <blockquote class="border-l-4 border-primary-accent pl-4 italic text-gray-600 mb-6">
-                            "Ketidakpahaman penderita, juga memperburuk keadaan kecemasan mereka. Terlebih lagi jika pasangan, keluarga, atau orang terdekat penderita tidak mengetahui perihal gangguan anxiety disorder ini."
-                        </blockquote>
-                        <p class="text-gray-700 leading-relaxed">
-                             Hal ini dapat membuat sang penderita mengalami depresi, merasa berbeda, memberatkan keluarga, atau menjadi sulit bangkit dari keadaan kecemasan. Karena didasari hal tersebut, maka Yayasan ACI ini kami bentuk.
-                        </p>
-                        <p class="mt-4 font-semibold text-gray-800">"whatever it takes..."</p>
-                        <p class="text-sm mt-2 text-gray-500">Terima kasih atas kepercayaannya kepada Yayasan ACI.</p>
-                    </div>
-
-                    <!-- Kolom Kanan: Founder & Komite -->
-                    <div class="space-y-8">
-                        
-                        <!-- Founder & Ketua -->
-                        <div class="bg-gray-50 p-6 rounded-xl shadow-md">
-                            <h3 class="text-xl font-bold text-primary-dark mb-3 flex items-center">
-                                <i data-lucide="crown" class="w-5 h-5 mr-2 text-yellow-500"></i> TIM FOUNDER & KETUA
-                            </h3>
-                            <ul class="text-gray-700 space-y-1">
-                                <li><span class="font-semibold">FOUNDER:</span> Erik Wibowo</li>
-                                <li><span class="font-semibold">CO-FOUNDER:</span> Bangkit Kukuh</li>
-                                <li><span class="font-semibold">KETUA ACI:</span> Dr. Anggoro Eka Raditya</li>
-                            </ul>
-                        </div>
-
-                        <!-- Doctors Committee -->
-                        <div class="p-6 rounded-xl shadow-md border border-gray-100">
-                            <h3 class="text-xl font-bold text-primary-dark mb-3 flex items-center">
-                                <i data-lucide="stethoscope" class="w-5 h-5 mr-2 text-red-500"></i> KOMITE DOKTER
-                            </h3>
-                            <ul class="text-gray-700 space-y-2">
-                                <li>Dr. Era Catur Prasetya Sp.KJ <span class="text-xs text-gray-500">(Psikiater)</span></li>
-                                <li>Dr. Anggoro Eka Raditya Sp.THT-KL <span class="text-xs text-gray-500">(Dokter THT)</span></li>
-                                <li>I Gusti Putu Darmika Cht, Mph. <span class="text-xs text-gray-500">(Dokter/CHT)</span></li>
-                                <li>Dr. I Wayan Mustika <span class="text-xs text-gray-500">(Dokter/Author)</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- AKHIR BAGIAN TENTANG KAMI -->
-        
-        <!-- BAGIAN BARU: HIGHLIGHT FITUR & MANFAAT (3) -->
-        <section id="fitur-manfaat" class="py-16 md:py-20 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Manfaat yang Akan Anda Dapatkan</h2>
-                <p class="text-gray-600 mb-12 max-w-2xl mx-auto">Kami memberikan alat yang Anda butuhkan untuk mengelola kecemasan secara mandiri dan suportif.</p>
-
-                <div class="grid md:grid-cols-4 gap-8">
-                    <!-- Fitur 1: Tes Interaktif (1/4) -->
-                    <div class="p-6 rounded-xl shadow-md bg-white">
-                        <i data-lucide="bar-chart-2" class="text-primary-accent w-8 h-8 mx-auto mb-3"></i>
-                        <h4 class="font-bold text-lg mb-1">Tes Kecemasan Interaktif</h4>
-                        <p class="text-gray-600 text-sm">Kenali tingkat kecemasan awal Anda (GAD-7) dalam hitungan menit.</p>
-                    </div>
-                    <!-- Fitur 2: Forum Aman (2/4) -->
-                    <div class="p-6 rounded-xl shadow-md bg-white">
-                        <i data-lucide="users" class="text-green-500 w-8 h-8 mx-auto mb-3"></i>
-                        <h4 class="font-bold text-lg mb-1">Forum Aman & Supportif</h4>
-                        <p class="text-gray-600 text-sm">Berbagi cerita dan temukan dukungan tanpa penghakiman dari sesama anggota.</p>
-                    </div>
-                    <!-- Fitur 3: Artikel & Edukasi (3/4) -->
-                    <div class="p-6 rounded-xl shadow-md bg-white">
-                        <i data-lucide="book-open-text" class="text-yellow-500 w-8 h-8 mx-auto mb-3"></i>
-                        <h4 class="font-bold text-lg mb-1">Artikel & Edukasi Mental Health</h4>
-                        <p class="text-gray-600 text-sm">Akses panduan dan pengetahuan berbasis bukti ilmiah tentang kecemasan.</p>
-                    </div>
-                    <!-- Fitur 4: Relaksasi & Meditasi (4/4) -->
-                    <div class="p-6 rounded-xl shadow-md bg-white">
-                        <i data-lucide="headphones" class="text-purple-500 w-8 h-8 mx-auto mb-3"></i>
-                        <h4 class="font-bold text-lg mb-1">Panduan Relaksasi</h4>
-                        <p class="text-gray-600 text-sm">Audio meditasi terpandu dan teknik pernapasan untuk menenangkan pikiran.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- THE 4-MONTH PROGRAM TIMELINE -->
+        <section id="program" class="py-20 bg-gray-900 text-white relative overflow-hidden">
+             <!-- Background Pattern -->
+             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#3498db 1px, transparent 1px); background-size: 30px 30px;"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-16">
+                    <span class="text-blue-400 font-bold uppercase tracking-widest text-sm">Roadmap Menuju Sembuh</span>
+                    <h2 class="text-3xl md:text-5xl font-extrabold mt-3">Perjalanan Pemulihan Anda<br>(4-Bulan Program)</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Malam demi malam yang gelisah tidak seharusnya Anda jalani selamanya. Ikuti langkah terstruktur kami.</p>
+                </div>
 
-        <!-- Bagian Layanan (Services) - Desain Kartu Vertikal -->
-        <section id="layanan" class="py-16 md:py-24 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Program Kesejahteraan Inti Kami</h2>
-                <p class="text-gray-600 mb-12 max-w-2xl mx-auto">Kami menawarkan program yang terstruktur untuk membantu Anda menguasai kecemasan langkah demi langkah.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Bulan 1 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
+                        <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">1</div>
+                        <h3 class="text-xl font-bold mb-2">Mengenal Tubuh</h3>
+                        <p class="text-gray-400 text-sm italic mb-4">"Sebelum sembuh, kita harus tahu apa yang terjadi."</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Pahami hubungan Dispepsia & Kecemasan.</li>
+                            <li>Kenali makanan aman & pemicu.</li>
+                            <li>Susun pola hidup 1-2 bulan ke depan.</li>
+                            <li>Analisis penyebab kambuh.</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 mt-auto">
+                            <p class="text-green-400 text-xs font-bold uppercase">Tujuan: Hilangkan sensasi tubuh.</p>
+                        </div>
+                    </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Kartu 1: Konseling -->
-                    <div class="bg-gray-50 p-8 rounded-xl card-shadow flex flex-col items-center">
-                        <i data-lucide="message-square-plus" class="text-primary-accent w-12 h-12 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3">Sesi Konseling 1-on-1</h3>
-                        <p class="text-gray-600 text-center">Temui terapis berlisensi kami dalam sesi pribadi yang fokus dan rahasia.</p>
+                    <!-- Bulan 2 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
+                        <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">2</div>
+                        <h3 class="text-xl font-bold mb-2">Menyempurnakan Pola</h3>
+                        <p class="text-gray-400 text-sm italic mb-4">"Bila fondasi sudah benar, pemulihan jadi mudah."</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Koreksi pemicu gejala.</li>
+                            <li>Sesuaikan ritme harian agar stabil.</li>
+                            <li>Bedakan kumat Lambung vs Anxiety.</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 mt-auto">
+                            <p class="text-green-400 text-xs font-bold uppercase">Tujuan: Fondasi tubuh kuat.</p>
+                        </div>
                     </div>
-                    <!-- Kartu 2: Modul Pembelajaran -->
-                    <div class="bg-gray-50 p-8 rounded-xl card-shadow flex flex-col items-center">
-                        <i data-lucide="layers" class="text-primary-accent w-12 h-12 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3">Modul Terapeutik Digital</h3>
-                        <p class="text-gray-600 text-center">Akses ke perpustakaan konten eksklusif dan jurnal terpandu.</p>
+
+                    <!-- Bulan 3 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
+                        <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">3</div>
+                        <h3 class="text-xl font-bold mb-2">Memahami Pola Pikir</h3>
+                        <p class="text-gray-400 text-sm italic mb-4">"Bukan tubuh yang sakit, tapi persepsi kita."</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Kenali pola pikir & sifat pemicu cemas.</li>
+                            <li>Sadari peran karakter lama dalam gejala.</li>
+                            <li>Belajar pola pikir baru yang tenang.</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 mt-auto">
+                            <p class="text-green-400 text-xs font-bold uppercase">Tujuan: Kendali atas pikiran.</p>
+                        </div>
                     </div>
-                    <!-- Kartu 3: Komunitas -->
-                    <div class="bg-gray-50 p-8 rounded-xl card-shadow flex flex-col items-center">
-                        <i data-lucide="heart" class="text-primary-accent w-12 h-12 mb-4"></i>
-                        <h3 class="text-xl font-bold mb-3">Komunitas Suportif</h3>
-                        <p class="text-gray-600 text-center">Terhubung dengan orang-orang yang memahami perjuangan Anda.</p>
+
+                    <!-- Bulan 4 -->
+                    <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 hover:border-blue-500 transition duration-300 group flex flex-col">
+                        <div class="bg-blue-500/20 w-12 h-12 rounded-full flex items-center justify-center text-blue-400 font-bold text-xl mb-4 group-hover:bg-blue-500 group-hover:text-white transition">4</div>
+                        <h3 class="text-xl font-bold mb-2">Transformasi Diri</h3>
+                        <p class="text-gray-400 text-sm italic mb-4">"Berkembang menjadi versi yang lebih kuat."</p>
+                        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+                            <li>Perdalam pola pikir sehat.</li>
+                            <li>Kuatkan kebiasaan baru.</li>
+                            <li>Transformasi jadi pribadi yang stabil.</li>
+                        </ul>
+                        <div class="mt-4 pt-4 border-t border-gray-700 mt-auto">
+                            <p class="text-green-400 text-xs font-bold uppercase">Tujuan: Pribadi Kokoh & Tenang.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-        <!-- BAGIAN BARU: KONTEN EDUKASI RINGAN (MINI BLOG PREVIEW) (6) -->
-        <section id="edukasi" class="py-16 md:py-24 bg-gray-100">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Edukasi & Tips Terbaru</h2>
-                <p class="text-gray-600 mb-12 max-w-2xl mx-auto">Dapatkan panduan praktis untuk hidup lebih sadar dan tenang.</p>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Artikel 1 -->
-                    <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="assets/images/napas-lega.webp" alt="Ilustrasi Latihan Napas" class="w-full h-40 object-cover">
-                        <div class="p-5">
-                            <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">5 Latihan Napas untuk Redakan Cemas Saat Itu Juga</h3>
-                            <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
-                        </div>
-                    </a>
-                    <!-- Artikel 2 -->
-                    <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="assets/images/tidur-nyenyak.jpeg" alt="Ilustrasi Tidur Nyenyak" class="w-full h-40 object-cover">
-                        <div class="p-5">
-                            <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">Cara Mengatasi Overthinking Sebelum Tidur</h3>
-                            <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
-                        </div>
-                    </a>
-                    <!-- Artikel 3 -->
-                    <a href="#" class="block bg-white rounded-xl overflow-hidden blog-card-shadow text-left hover:shadow-lg transition duration-300">
-                        <img src="assets/images/cemas.webp" alt="Ilustrasi Mindfulness dan Kecemasan" class="w-full h-40 object-cover">
-                        <div class="p-5">
-                            <h3 class="font-bold text-lg mb-2 text-gray-900 line-clamp-2">Mindfulness untuk Pemula: Kenali Kecemasan Tanpa Menghakimi</h3>
-                            <p class="text-sm text-gray-500">Baca Selengkapnya &rarr;</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Bagian Testimoni - Tetap di sini -->
-        <section id="testimoni" class="py-16 md:py-24 bg-white">
+        <!-- THE 4P METHOD -->
+        <section id="metode" class="py-20 bg-blue-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 text-center">Dampak Nyata dari Komunitas Kami</h2>
-                <p class="text-gray-600 mb-12 max-w-xl mx-auto text-center">Mereka telah menemukan kedamaian, dan Anda juga bisa.</p>
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900">Metode 4P: Fondasi Utama</h2>
+                    <p class="text-gray-600 mt-4 max-w-2xl mx-auto">
+                        "Tubuh bisa pulih. Pikiran bisa dilatih. Hidup bisa kembali terasa aman." <br>
+                        Kami menggunakan pendekatan yang menyentuh akar masalah dari dua sisi sekaligus: <strong>tubuh dan pikiran.</strong>
+                    </p>
+                </div>
 
-                <!-- Simulasi Card Testimoni -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Testimoni 1 -->
-                    <div class="bg-gray-50 p-6 rounded-xl shadow-inner border-l-4 border-primary-accent">
-                        <i data-lucide="quote" class="w-6 h-6 text-primary-accent mb-3"></i>
-                        <p class="italic text-gray-700 mb-4 text-base">"Dulu aku sering panik tanpa sebab. Setelah ikut forum Anxyeticare, aku belajar teknik napas dan journaling. Sekarang aku lebih tenang."</p>
-                        <p class="font-bold text-sm text-gray-900">- Rani, 24 tahun</p>
-                        <span class="text-xs text-gray-500">Anggota Terverifikasi</span>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- P1: Pola Makan -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-orange-400">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-orange-100 text-orange-600 rounded-lg">
+                                <i data-lucide="utensils" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">1. Pola Makan</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Banyak gejala cemas muncul karena lambung tidak stabil. Di sini Anda akan:</p>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-4">
+                            <li>Mengenal makanan aman & pemicu.</li>
+                            <li>Menyusun jadwal makan agar lambung normal.</li>
+                            <li>Memahami kebutuhan gizi.</li>
+                        </ul>
+                        <p class="text-sm font-bold text-orange-600 bg-orange-50 p-2 rounded-lg inline-block">Hasil: Menghilangkan sensasi pemicu Anxiety Disorder.</p>
                     </div>
-                    <!-- Testimoni 2 -->
-                    <div class="bg-gray-50 p-6 rounded-xl shadow-inner border-l-4 border-primary-accent">
-                        <i data-lucide="quote" class="w-6 h-6 text-primary-accent mb-3"></i>
-                        <p class="italic text-gray-700 mb-4 text-base">"Modul tidur terpandu adalah penyelamat. Untuk pertama kalinya dalam bertahun-tahun, saya merasa benar-benar istirahat."</p>
-                        <p class="font-bold text-sm text-gray-900">- Tommy W., Bandung</p>
-                        <span class="text-xs text-gray-500">Anggota Terverifikasi</span>
+
+                    <!-- P2: Pola Pikir -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-blue-400">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-blue-100 text-blue-600 rounded-lg">
+                                <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">2. Pola Pikir</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Kecemasan sering dimulai dari cara kita mengartikan sensasi tubuh. Anda belajar:</p>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-4">
+                            <li>Mengubah pola pikir panik jadi tenang.</li>
+                            <li>Mengenali ketakutan pemicu anxiety.</li>
+                            <li>Memahami koneksi pikiran-lambung.</li>
+                        </ul>
+                        <p class="text-sm font-bold text-blue-600 bg-blue-50 p-2 rounded-lg inline-block">Hasil: Gejala tidak lagi terasa "mengancam".</p>
                     </div>
-                    <!-- Testimoni 3 -->
-                    <div class="bg-gray-50 p-6 rounded-xl shadow-inner border-l-4 border-primary-accent">
-                        <i data-lucide="quote" class="w-6 h-6 text-primary-accent mb-3"></i>
-                        <p class="italic text-gray-700 mb-4 text-base">"Dukungan komunitas adalah yang terbaik. Tidak ada penilaian, hanya empati murni dari orang-orang yang benar-benar mengerti."</p>
-                        <p class="font-bold text-sm text-gray-900">- Lia K., Surabaya</p>
-                        <span class="text-xs text-gray-500">Anggota Terverifikasi</span>
+
+                    <!-- P3: Pola Hidup -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-green-400">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-green-100 text-green-600 rounded-lg">
+                                <i data-lucide="activity" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">3. Pola Hidup</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Menata ulang aktivitas fisik dan istirahat untuk menenangkan sistem saraf.</p>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-4">
+                            <li>Mempelajari kebiasaan buruk pemicu sensasi.</li>
+                            <li>Membuat kegiatan baru yang bermanfaat.</li>
+                            <li>Mengatur ritme tidur dan bangun.</li>
+                        </ul>
+                        <p class="text-sm font-bold text-green-600 bg-green-50 p-2 rounded-lg inline-block">Hasil: Tubuh tidak lagi dalam mode "Siaga".</p>
+                    </div>
+
+                    <!-- P4: Pola Sifat -->
+                    <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition duration-300 border-t-4 border-purple-400">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="p-3 bg-purple-100 text-purple-600 rounded-lg">
+                                <i data-lucide="heart" class="w-6 h-6"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-gray-900">4. Pola Sifat</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Memulihkan karakter dan sistem saraf secara alami.</p>
+                        <ul class="space-y-2 text-gray-700 list-disc list-inside mb-4">
+                            <li>Mengenali sifat terburu-buru (Responsif).</li>
+                            <li>Mengenali trauma & luka batin masa lalu.</li>
+                            <li>Mengatur pikiran liar peramal masa depan.</li>
+                        </ul>
+                        <p class="text-sm font-bold text-purple-600 bg-purple-50 p-2 rounded-lg inline-block">Hasil: Tidur nyenyak, emosi stabil.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Bagian Pendaftaran (Formulir) - CTA Akhir (7) -->
-        <section id="daftar" class="py-16 md:py-24 bg-primary-dark">
-            <div class="max-w-3xl mx-auto px-4 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-white">Bersama, Kita Bisa Lebih Tenang.</h2>
-                <p class="text-gray-300 mb-10">Gabung sekarang dan temukan dukungan yang kamu butuhkan. Ambil uji coba gratis 7 hari hari ini!</p>
+        <!-- TESTIMONIALS (UPDATED - 4 ITEMS IN GRID) -->
+        <section id="testimoni" class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h2 class="text-3xl font-bold mb-4 text-gray-900">Kisah Nyata, Harapan Baru</h2>
+                <p class="text-gray-600 mb-12">Dengarkan perjuangan nyata mereka yang berhasil bangkit bersama komunitas kami.</p>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    <!-- Testi 1 -->
+                    <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
+                            <p class="text-gray-700 text-sm italic mb-6 leading-relaxed">
+                                "Karena anxiety ini gue udah dua kali masuk UGD, rekam jantung, takut mati, panic attack... Ternyata hasilnya bagus (fisik sehat). Di sini saya belajar bahwa saya tidak sendiri."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold shrink-0">A</div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">Anggota Komunitas</p>
+                                <p class="text-xs text-gray-500">Video Testimonial</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testi 2 -->
+                    <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
+                            <p class="text-gray-700 text-sm italic mb-6 leading-relaxed">
+                                "Aku sangat berterima kasih kepada forum ini. Ternyata aku enggak sendiri, banyak teman-teman yang saling memberikan semangat. Hari ini kita adalah pahlawan bagi diri sendiri."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-bold shrink-0">S</div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">Survivor Anxiety</p>
+                                <p class="text-xs text-gray-500">Video Testimonial</p>
+                            </div>
+                        </div>
+                    </div>
 
-                <form class="bg-white p-6 sm:p-10 rounded-xl shadow-2xl space-y-4" id="registrationForm">
-                    <input type="text" id="name" placeholder="Nama Lengkap" required
-                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary-accent focus:border-primary-accent transition duration-150">
-                    <input type="email" id="email" placeholder="Alamat Email" required
-                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary-accent focus:border-primary-accent transition duration-150">
-                    <input type="tel" id="phone" placeholder="Nomor Telepon (Opsional)"
-                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary-accent focus:border-primary-accent transition duration-150">
-                    <button type="submit" class="btn-primary-dark w-full text-white font-bold py-3 rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                        Gabung Sekarang
+                    <!-- Testi 3 -->
+                    <div class="bg-gray-50 p-6 rounded-2xl text-left relative hover:shadow-lg transition duration-300 flex flex-col justify-between">
+                        <div>
+                            <i data-lucide="quote" class="w-6 h-6 text-blue-200 mb-4"></i>
+                            <p class="text-gray-700 text-sm italic mb-6 leading-relaxed">
+                                "Kenali pikiranmu, kenali jiwamu, dan kenali badanmu. Kalian tidak sendirian. Saya bisa bangkit, Anda harus juga bisa. Kita adalah survivor!"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold shrink-0">J</div>
+                            <div>
+                                <p class="font-bold text-gray-900 text-sm">Julian K.</p>
+                                <p class="text-xs text-gray-500">Lombok</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Link Card (Item 4) -->
+                    <a href="https://www.youtube.com/watch?v=4y9vu2PcR8M" target="_blank" class="group relative bg-gray-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 flex flex-col">
+                        <!-- Thumbnail -->
+                        <div class="relative h-48 sm:h-full bg-black overflow-hidden flex-grow">
+                             <img src="https://img.youtube.com/vi/4y9vu2PcR8M/hqdefault.jpg" alt="Video Testimoni" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500 transform group-hover:scale-110">
+                             <div class="absolute inset-0 flex items-center justify-center">
+                                 <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                                     <i data-lucide="play" class="w-5 h-5 text-white fill-current"></i>
+                                 </div>
+                             </div>
+                        </div>
+                        <!-- Caption -->
+                        <div class="p-4 bg-white text-left h-auto">
+                            <h3 class="font-bold text-gray-900 leading-tight mb-1 text-sm">Tonton Video Lengkap</h3>
+                            <p class="text-xs text-gray-500">Kumpulan cerita para survivor.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq" class="py-20 bg-gray-50 border-t border-gray-200">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-gray-900">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+                </div>
+                
+                <div class="space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah dijamin sembuh dalam 4 bulan?</h3>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform duration-300"></i>
+                        </div>
+                        <p class="hidden text-gray-600 mt-3 leading-relaxed border-t border-gray-100 pt-3">
+                            Kami adalah yayasan komunitas dan therapeutic. Kami fokus pada dukungan peer-to-peer dan metode 4P yang terstruktur. Kami tidak menjamin kesembuhan instan karena setiap tubuh berbeda, namun metode kami dirancang untuk melengkapi terapi profesional dan menjadi sistem pendukung kuat yang mempercepat pemulihan.
+                        </p>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah Kliyengan, sesak, dan dada berdebar termasuk anxiety?</h3>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform duration-300"></i>
+                        </div>
+                        <p class="hidden text-gray-600 mt-3 leading-relaxed border-t border-gray-100 pt-3">
+                            Ya, gejala fisik seperti kliyengan, leher tercekik, mata buram, dada berdebar, napas pendek, dan heartburn seringkali merupakan manifestasi fisik dari kecemasan (psikosomatis) atau GERD yang dipicu oleh kecemasan. Program ini membantu mengurai benang kusut tersebut.
+                        </p>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-900">Bagaimana cara kerja Metode 4P?</h3>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform duration-300"></i>
+                        </div>
+                        <p class="hidden text-gray-600 mt-3 leading-relaxed border-t border-gray-100 pt-3">
+                            Metode 4P mencakup perbaikan <strong>Pola Pikir</strong> (kognitif), <strong>Pola Makan</strong> (nutrisi & lambung), <strong>Pola Hidup</strong> (aktivitas & tidur), dan <strong>Pola Sifat</strong> (karakter & emosi) untuk mencapai keseimbangan mental dan fisik secara alami.
+                        </p>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah program ini cocok untuk semua jenis anxiety?</h3>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform duration-300"></i>
+                        </div>
+                        <p class="hidden text-gray-600 mt-3 leading-relaxed border-t border-gray-100 pt-3">
+                            Materi kami didesain khusus untuk membantu penyintas General Anxiety Disorder (GAD), Panic Disorder, dan kecemasan yang terkait erat dengan masalah lambung/psikosomatik.
+                        </p>
+                    </div>
+
+                    <!-- FAQ 5 -->
+                    <div class="bg-white rounded-xl shadow-sm p-6 cursor-pointer hover:shadow-md transition" onclick="this.querySelector('p').classList.toggle('hidden'); this.querySelector('i').classList.toggle('rotate-180')">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-lg text-gray-900">Apakah overthinking saat dengar berita buruk itu gejala anxiety?</h3>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-500 transition-transform duration-300"></i>
+                        </div>
+                        <p class="hidden text-gray-600 mt-3 leading-relaxed border-t border-gray-100 pt-3">
+                            Seringkali ya. Reaksi berlebihan terhadap berita negatif (kematian, kecelakaan) adalah ciri sensitivitas sistem saraf yang tinggi, yang umum terjadi pada penderita anxiety. Kami mengajarkan cara mengelola respon ini.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section id="daftar" class="py-20 bg-[#2c3e50] relative overflow-hidden">
+            <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-white">Mau Sampai Kapan? <br> <span class="text-blue-400">Saatnya Pulih.</span></h2>
+                <p class="text-blue-100 mb-10 text-lg max-w-2xl mx-auto">
+                    Jangan biarkan kecemasan mencuri satu hari lagi dari hidup Anda. Mulailah perjalanan pemulihan Anda bersama ribuan anggota yang sudah menemukan ketenangan.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="openModal('registrationModal')" class="btn-primary py-4 px-8 rounded-full text-lg font-bold shadow-lg transform hover:scale-105 transition">
+                        YA, SAYA SIAP BERGABUNG & PULIH
                     </button>
-                    <div id="statusMessage" class="text-sm pt-2 text-gray-700 hidden"></div>
-                </form>
-
+                    <!-- Tautan WhatsApp yang berfungsi -->
+                    <a href="https://wa.me/6281234567890?text=Halo%20AnxietyCare%2C%20saya%20ingin%20konsultasi%20singkat%20mengenai%20program%20pemulihan%20ini." 
+                       target="_blank" 
+                       class="bg-green-600 text-white py-4 px-8 rounded-full text-lg font-bold shadow-lg hover:bg-green-700 transform hover:scale-105 transition flex items-center justify-center gap-2">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        KONSULTASI SINGKAT (WA)
+                    </a>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- Footer Edukatif & Aman (8) -->
-    <footer class="bg-gray-900 text-white py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <!-- Kolom 1: Logo & Tagline -->
-            <div class="col-span-2 md:col-span-1">
-                <h3 class="text-xl font-extrabold mb-4">Anxiety<span class="text-primary-accent">Care</span></h3>
-                <p class="text-gray-400 text-sm">Merawat mental, menemukan kedamaian.</p>
-                <div class="mt-4 flex space-x-4">
-                    <a href="#" class="text-gray-400 hover:text-primary-accent transition duration-150"><i data-lucide="instagram" class="w-6 h-6"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-primary-accent transition duration-150"><i data-lucide="twitter" class="w-6 h-6"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-primary-accent transition duration-150"><i data-lucide="mail" class="w-6 h-6"></i></a>
-                    <a href="#" class="text-gray-400 hover:text-primary-accent transition duration-150"><i data-lucide="whatsapp" class="w-6 h-6"></i></a>
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-300 py-16 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <i data-lucide="heart-handshake" class="w-6 h-6 text-blue-500"></i>
+                        <span class="text-xl font-bold">AnxietyCare</span>
+                    </div>
+                    <p class="text-sm text-gray-400 mb-6 leading-relaxed max-w-sm">
+                        Yayasan Anxiety Care Indonesia. Membantu penderita gangguan kecemasan (disertai gangguan lambung/depresi) dengan pengetahuan dan dukungan komunitas.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-blue-400 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-blue-400 transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-blue-400 transition"><i data-lucide="mail" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4">Kontak</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li>Phone: (123) 456-7890</li>
+                        <li>Email: hello@reallygreatsite.com</li>
+                        <li>Jakarta, Indonesia</li>
+                    </ul>
+                </div>
+
+                <!-- Partners -->
+                <div>
+                    <h3 class="text-white font-semibold mb-4">Mitra</h3>
+                    <ul class="space-y-2 text-sm text-gray-500">
+                        <li>Aido Health</li>
+                        <li>Lekasehat</li>
+                        <li>Bipolar Care Indonesia</li>
+                        <li>Happy Yoga</li>
+                    </ul>
                 </div>
             </div>
-            <!-- Kolom 2: Peta Situs -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4 text-primary-accent">Peta Situs</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#tentang-kami" class="text-gray-400 hover:text-white transition duration-150">Tentang Kami</a></li>
-                    <li><a href="#layanan" class="text-gray-400 hover:text-white transition duration-150">Layanan</a></li>
-                    <li><a href="#edukasi" class="text-gray-400 hover:text-white transition duration-150">Edukasi</a></li>
-                    <li><a href="#daftar" class="text-gray-400 hover:text-white transition duration-150">Gabung</a></li>
-                </ul>
+
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <div class="max-w-3xl mx-auto space-y-2">
+                    <p class="text-xs text-red-400 font-bold uppercase tracking-wide">Disclaimer Penting</p>
+                    <p class="text-xs text-gray-500">
+                        AnxietyCare bukan pengganti layanan medis profesional. Jika Anda mengalami gejala berat, segera hubungi profesional atau layanan darurat.
+                    </p>
+                    <p class="text-xs text-gray-600 mt-4">&copy; 2025 AnxietyCare. All rights reserved.</p>
+                </div>
             </div>
-            <!-- Kolom 3: Dukungan & Legal -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4 text-primary-accent">Dukungan</h3>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-150">FAQ</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-150">Kebijakan Privasi</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-150">Disclaimer</a></li>
-                    <li><a href="#" class="text-gray-400 hover:text-white transition duration-150">Hubungi Kami</a></li>
-                </ul>
-            </div>
-            <!-- Kolom 4: Mitra -->
-            <div>
-                <h3 class="text-lg font-semibold mb-4 text-primary-accent">Mitra Kami</h3>
-                <ul class="space-y-2 text-sm text-gray-400">
-                    <li>Aido Health</li>
-                    <li>Lekasehat</li>
-                    <li>Bipolar Care Indonesia</li>
-                    <li>Happy Yoga</li>
-                </ul>
-            </div>
-        </div>
-        <div class="mt-8 pt-6 border-t border-gray-700 text-center text-sm text-gray-500 max-w-7xl mx-auto px-4">
-            <p class="font-bold text-red-400 mb-2">DISCLAIMER PENTING:</p>
-            <p class="mb-0">AnxietyCare bukan layanan medis profesional. Jika Anda mengalami gejala berat, segera hubungi psikolog atau psikiater terdekat atau layanan darurat.</p>
-            <p class="mt-4">&copy; 2025 AnxietyCare. Dibangun dengan cinta dan empati.</p>
         </div>
     </footer>
 
-    <!-- MODAL 1: GAD-7 Test (Input Nilai 0-3) -->
-    <div id="gad7Modal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-overlay transition-opacity duration-300">
-        <div class="flex items-start md:items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[95vh] mt-8 md:mt-0 overflow-y-auto relative p-6 sm:p-10 transform transition-all duration-300 scale-100">
-                
-                <!-- Tombol Tutup -->
-                <button onclick="closeModal('gad7Modal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition duration-150">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-
-                <h2 class="text-3xl font-bold mb-2 text-gray-900 text-center">Tes Cek Kecemasan Awal (GAD-7)</h2>
-                <p class="text-gray-600 mb-6 text-center max-w-xl mx-auto text-sm">
-                    Selama **2 minggu terakhir**, seberapa sering Anda merasa terganggu oleh hal-hal berikut ini?
-                    <span class="block mt-1 font-semibold text-primary-accent">Jawab dengan angka: 0 (Tidak Pernah) s/d 3 (Hampir Selalu)</span>
-                </p>
-
-                <form id="gad7FormModal" class="bg-white p-0 rounded-xl space-y-6">
-                    
-                    <div id="modalQuestionsContainer" class="space-y-4">
-                        <!-- Questions will be generated here by JavaScript -->
-                    </div>
-
-                    <p id="formMessage" class="hidden text-center font-semibold mt-4"></p>
-
-                    <button type="submit" class="btn-primary-dark w-full text-white font-bold py-3 rounded-lg shadow-md hover:shadow-xl transition duration-300 mt-6">
-                        Lihat Hasil
+    <!-- MODAL: REGISTRATION -->
+    <div id="registrationModal" class="fixed inset-0 z-50 hidden transition-opacity duration-300" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 modal-overlay transition-opacity" onclick="closeModal('registrationModal')"></div>
+        <div class="flex items-center justify-center min-h-screen p-4 text-center sm:p-0">
+            <div class="relative bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:max-w-lg w-full max-h-[90vh] flex flex-col">
+                <!-- Header -->
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-100 flex justify-between items-center shrink-0">
+                    <h3 class="text-xl font-bold text-gray-900">Daftar Waiting List</h3>
+                    <button onclick="closeModal('registrationModal')" class="text-gray-400 hover:text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-full p-1 transition">
+                        <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
-
-                </form>
+                </div>
+                <!-- Body -->
+                <div class="p-6">
+                    <form id="registrationForm" class="space-y-4">
+                        <input type="text" id="name" placeholder="Nama Lengkap" required
+                               class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-800">
+                        <input type="email" id="email" placeholder="Alamat Email" required
+                               class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-800">
+                        <input type="tel" id="phone" placeholder="No. WhatsApp"
+                               class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-gray-800">
+                        
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                            Gabung Sekarang
+                        </button>
+                        <div id="statusMessage" class="hidden p-3 rounded-lg text-sm bg-gray-50 text-gray-800 text-center"></div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-    <!-- AKHIR MODAL GAD-7 -->
 
-    <!-- MODAL 2: GAD-7 Results (Disembunyikan secara default) -->
-    <div id="resultModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-overlay transition-opacity duration-300">
-        <div class="flex items-start md:items-center justify-center min-h-screen p-4">
-            <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[95vh] mt-8 md:mt-0 overflow-y-auto relative p-6 sm:p-10 transform transition-all duration-300 scale-100">
-                
-                <!-- Tombol Tutup -->
-                <button onclick="closeModal('resultModal')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 transition duration-150">
-                    <i data-lucide="x" class="w-6 h-6"></i>
-                </button>
-
-                <h2 class="text-3xl font-bold mb-6 text-gray-900 text-center">Hasil Tes Kecemasan Anda</h2>
-                
-                <div id="resultModalContainer">
-                    <!-- Result content will be inserted here by JavaScript -->
-                </div>
-                
-                <div class="mt-8 text-center">
-                    <button onclick="closeModal('resultModal')" class="bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-full hover:bg-gray-400 transition duration-150">
-                        Tutup
-                    </button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!-- AKHIR MODAL HASIL -->
-
-    <!-- Logika JavaScript -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Menginisialisasi Ikon Lucide setelah HTML dimuat
+        // Init Icons
         lucide.createIcons();
-        
-        // --- Logika Modal ---
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Mencegah scroll di background
-        }
 
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-            document.body.style.overflow = ''; // Mengizinkan scroll kembali
-            
-            // Reset formulir GAD-7 saat ditutup
-            if (modalId === 'gad7Modal') {
-                const form = document.getElementById('gad7FormModal');
-                if (form) {
-                    form.reset();
-                    const formMessage = form.querySelector('#formMessage');
-                    if (formMessage) formMessage.classList.add('hidden');
-                    // Hapus highlight error
-                    form.querySelectorAll('input[type="number"]').forEach(input => {
-                        input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
-                    });
-                }
-            }
-        }
-
-        // Logika Toggle Menu Seluler
+        // Mobile Menu Logic
         const menuButton = document.getElementById('menuButton');
         const mobileMenu = document.getElementById('mobileMenu');
-
+        
         menuButton.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');
-            const icon = menuButton.querySelector('i[data-lucide]');
-            const isMenuOpen = !mobileMenu.classList.contains('hidden');
-            icon.setAttribute('data-lucide', isMenuOpen ? 'x' : 'menu');
+            const icon = menuButton.querySelector('svg');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuButton.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+            } else {
+                menuButton.innerHTML = '<i data-lucide="x" class="w-6 h-6"></i>';
+            }
             lucide.createIcons();
         });
-        
-        // --- Logika GAD-7 Generation ---
-        const questions = [
-            "Merasa gugup, cemas, atau tegang",
-            "Tidak bisa menghentikan atau mengendalikan kekhawatiran",
-            "Terlalu banyak khawatir tentang berbagai hal",
-            "Sulit untuk rileks",
-            "Gelisah sehingga sulit diam",
-            "Mudah tersinggung atau marah",
-            "Takut seolah-olah sesuatu yang buruk akan terjadi"
-        ];
 
-        function generateGad7Questions() {
-            const container = document.getElementById('modalQuestionsContainer');
-            if (!container) return; 
-
-            container.innerHTML = ''; // Pastikan container kosong sebelum diisi
-            questions.forEach((q, index) => {
-                const qId = `q${index + 1}`;
-                const html = `
-                    <div class="border-b border-gray-200 pb-3 flex flex-col sm:flex-row sm:justify-between sm:items-center">
-                        <p class="font-medium mb-2 sm:mb-0 w-full sm:w-3/4">${index + 1}. ${q}</p>
-                        <div class="w-full sm:w-1/4 flex justify-start sm:justify-end">
-                            <input type="number" id="${qId}" name="${qId}" min="0" max="3" placeholder="0 - 3" required
-                                class="w-20 text-center p-2 border border-gray-300 rounded-lg focus:ring-primary-accent focus:border-primary-accent transition duration-150">
-                        </div>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', html);
+        document.querySelectorAll('#mobileMenu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuButton.innerHTML = '<i data-lucide="menu" class="w-6 h-6"></i>';
+                lucide.createIcons();
             });
-        }
-        
-        // Jalankan saat load
-        generateGad7Questions();
-
-        // --- Logika GAD-7 Test Calculation (di dalam Modal) ---
-        document.getElementById('gad7FormModal').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            let totalScore = 0;
-            let isValid = true;
-            const formMessage = form.querySelector('#formMessage');
-
-            // Hitung skor dan validasi input
-            for (let i = 1; i <= 7; i++) {
-                const input = form.elements[`q${i}`];
-                const value = parseInt(input.value);
-                
-                if (isNaN(value) || value < 0 || value > 3) {
-                    isValid = false;
-                    // Highlight error input
-                    input.classList.add('border-red-500', 'ring-1', 'ring-red-500');
-                } else {
-                    input.classList.remove('border-red-500', 'ring-1', 'ring-red-500');
-                    totalScore += value;
-                }
-            }
-
-            if (!isValid) {
-                // Tampilkan pesan kesalahan jika ada input tidak valid
-                formMessage.textContent = "Mohon isi semua kolom dengan nilai 0 hingga 3.";
-                formMessage.classList.remove('hidden');
-                formMessage.classList.add('text-red-500');
-                return;
-            } else {
-                 formMessage.classList.add('hidden');
-            }
-            
-            // 1. Tentukan interpretasi 
-            let interpretation = "";
-            let advice = "";
-            let resultClass = "border-green-500 bg-green-50/50"; // Default: normal/ringan
-            let adviceCTA = `<p class="mt-4 text-sm text-gray-700">Terima kasih telah melakukan tes mandiri.</p>`;
-
-            if (totalScore >= 0 && totalScore <= 4) {
-                interpretation = "Kecemasan Ringan / Normal";
-                advice = "Hasil Anda berada dalam batas normal. Tetap jaga keseimbangan hidup. Coba latihan mindfulness dasar di sumber daya gratis kami.";
-            } else if (totalScore >= 5 && totalScore <= 9) {
-                interpretation = "Kecemasan Ringan hingga Sedang";
-                advice = "Cobalah latihan pernapasan dan journaling. Anda mungkin mendapat manfaat dari modul digital AnxietyCare. Konsultasi opsional.";
-                resultClass = "border-yellow-500 bg-yellow-50/50";
-            } else if (totalScore >= 10 && totalScore <= 14) {
-                interpretation = "Kecemasan Sedang";
-                advice = "Skor Anda menunjukkan tingkat kecemasan sedang. Kami sangat menyarankan Anda untuk melihat opsi untuk menjadwalkan konsultasi awal dengan terapis profesional.";
-                resultClass = "border-orange-500 bg-orange-50/50";
-                adviceCTA = `<a href="#daftar" onclick="closeModal('resultModal');" class="mt-4 inline-block btn-primary-dark text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-xl">Lihat Opsi Konsultasi</a>`;
-            } else if (totalScore >= 15 && totalScore <= 21) {
-                interpretation = "Kecemasan Berat";
-                advice = "Skor Anda menunjukkan kecemasan berat. Konsultasi segera dengan psikolog atau psikiater sangat disarankan. Prioritaskan kesehatan mental Anda.";
-                resultClass = "border-red-500 bg-red-50/50";
-                adviceCTA = `<a href="#daftar" onclick="closeModal('resultModal');" class="mt-4 inline-block btn-primary-dark text-white font-bold py-2 px-4 rounded-lg shadow-md hover:shadow-xl">Hubungi Kami Sekarang</a>`;
-            }
-
-            // 2. Tutup Modal Tes
-            closeModal('gad7Modal');
-
-            // 3. Update Modal Hasil
-            const resultModalContainer = document.getElementById('resultModalContainer');
-            if (resultModalContainer) {
-                resultModalContainer.innerHTML = `
-                    <div class="p-6 border-l-4 rounded-lg ${resultClass}">
-                        <h3 class="text-xl font-bold mb-2 text-gray-900">Interpretasi Hasil Anda:</h3>
-                        <p class="text-lg font-semibold text-gray-700">Skor Total: <span class="text-3xl font-extrabold text-primary-accent">${totalScore}</span> / 21</p>
-                        <p class="font-bold text-lg mt-2">${interpretation}</p>
-                        <p class="text-gray-600 mt-3">${advice}</p>
-                        ${adviceCTA}
-                    </div>
-                    <p class="text-xs text-gray-500 mt-6 pt-4 border-t border-gray-100">
-                        Peringatan: Tes ini bukan diagnosis. Hanya profesional kesehatan mental yang dapat memberikan diagnosis resmi.
-                    </p>
-                `;
-            }
-
-            // 4. Buka Modal Hasil
-            openModal('resultModal');
         });
 
-        // Logika untuk menangani pengiriman formulir pendaftaran (Hero section)
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
+        // --- Modal Logic ---
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
 
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.body.style.overflow = ''; 
+        }
+
+        // --- Registration Form Simulation ---
+        document.getElementById('registrationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            const status = document.getElementById('statusMessage');
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const statusMessage = document.getElementById('statusMessage');
 
-            statusMessage.textContent = `Memproses pendaftaran...`;
-            statusMessage.classList.remove('hidden', 'text-green-600');
-            statusMessage.classList.add('text-gray-700');
+            btn.disabled = true;
+            btn.innerHTML = 'Memproses...';
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
 
             setTimeout(() => {
-                console.log("Data Pendaftaran:", { name, email });
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                btn.classList.remove('opacity-75', 'cursor-not-allowed');
+
+                status.innerHTML = `<span class="font-bold text-green-700">Terima kasih, ${name}!</span><br>Anda telah terdaftar. Kami akan segera menghubungi Anda.`;
+                status.classList.remove('hidden');
                 
-                statusMessage.textContent = `Selamat datang, ${name}! Kami mengirimkan detail uji coba Anda ke ${email}.`;
-                statusMessage.classList.add('text-green-600', 'font-semibold');
-                statusMessage.classList.remove('text-gray-700');
+                e.target.reset();
 
                 setTimeout(() => {
-                    document.getElementById('registrationForm').reset();
-                    statusMessage.classList.add('hidden');
-                    statusMessage.classList.remove('text-green-600', 'font-semibold');
-                }, 5000);
-
-            }, 1500); 
+                    status.classList.add('hidden');
+                    closeModal('registrationModal');
+                }, 3000);
+            }, 1500);
         });
     </script>
-
 </body>
 </html>
